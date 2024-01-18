@@ -26,12 +26,12 @@
       let res=0;
       res =parseInt(num1) +parseInt(num2) ;
       document.getElementById("ans").innerHTML=res;
-      // fetch(`https://sum-server.100xdevs.com/sum?a=${num1}&b=${num2}`)
-      // .then(function(res){
-      //     res.text().then(function(ans){
-      //       document.getElementById("ans").innerHTML=ans;
-      //     })
-      // })
+      fetch(`https://sum-server.100xdevs.com/sum?a=${num1}&b=${num2}`)
+      .then(function(res){
+          res.text().then(function(ans){
+            document.getElementById("ans").innerHTML=ans;
+          })
+      })
 
    
     }

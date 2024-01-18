@@ -1,0 +1,65 @@
+<html>
+
+      <style>
+            #title{
+                  /* color: rgb(213, 78, 78);
+                  background: rgb(20, 107, 208); */
+                  border: 0ch;
+                  width: "12";
+            }
+      </style>
+
+      <body>
+            <input type="text" placeholder="title" id="title"><br></br>
+            <input type="text" placeholder="description" id="desc"><br></br>
+            <button onclick="addTodo()" type="submit">Add todo</button>
+
+            <h1 id="todos"></h1>
+      </body>
+
+      <script>
+            let globalId=1;
+            function markAsDone(id) {
+                  const parent = document.getElementById(id)
+                  parent.children[2].innerHTML = "Done"
+            }
+            function createChild(title,desc,id) {
+                  const child = document.createElement("div");
+                  const firstChild = document.createElement("div");
+                  firstChild.innerHTML = title;
+                  const secondChild = document.createElement("div");
+                  secondChild.innerHTML = title;  
+                  const thirdChild = document.createElement("button");
+                  thirdChild.innerHTML = "Mark as done"; 
+                  thirdChild.setAttribute("onclick",`markAsDone(${id})`)
+                  child.appendChild(firstChild);
+                  child.appendChild(secondChild);
+                  child.appendChild(thirdChild);
+                  child.setAttribute("id",id);
+                  return child
+            }
+
+            function updateTodos(state) {
+                  const parent = document.getElementById("todos");
+                  parent.innerHTML=""
+                  for(let i=0;i<state.length;i++){
+                        const child = createChild(state[i].title,state[i].description,state[i].id)
+                        parent.appendChild(child)
+                  }
+            }
+
+            function addTodo() {
+                  const title = document.getElementById("title").value;
+                  const des = document.getElementById("desc").value;
+                  
+                  const todo = document.getElementById("todos")
+                  todo.appendChild(createChild(title,desc,globalId++))
+            }
+
+            setTimeout(async() => {
+                  const res = await fetch("https://sum-server.100xdevs.com/todos")
+                  const json = await res.json();
+                  updateTodos(json.todos)
+            }, 5000);
+      </script>
+</html>

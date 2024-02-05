@@ -31,7 +31,7 @@ const userScheme = new mongoose.Schema(
 
 userScheme.pre("save", function (next) {
   const user = this;
-  const encryptedPassword = bcrypt.hashSync(user.password, SALT);
+  const encryptedPassword = bcrypt.hash(user.password, SALT);
   user.password = encryptedPassword;
   next();
 });
@@ -48,4 +48,4 @@ userScheme.methods.genJWT = function generate() {
 
 const User = mongoose.models.User || mongoose.model("User", userScheme);
 
-export default User;
+module.exports = User;

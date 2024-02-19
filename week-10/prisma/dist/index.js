@@ -81,7 +81,7 @@ function getUser(username) {
         }
     });
 }
-getUser("knock");
+// getUser("knock")
 function remove(username) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -104,3 +104,58 @@ function remove(username) {
     });
 }
 // remove("knock");
+function createTodo(userId, title, description) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const todo = yield prisma.todo.create({
+                data: {
+                    title,
+                    description,
+                    userId
+                }
+            });
+            console.log(todo);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    });
+}
+// createTodo(2, "go to church", "go to church and do pray");
+function getTodos(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const todos = yield prisma.todo.findMany({
+                where: {
+                    userId: userId,
+                },
+            });
+            console.log(todos);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    });
+}
+// getTodos(2);
+function getTodosAndUserDetails(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const todos = yield prisma.todo.findMany({
+                where: {
+                    userId: userId,
+                },
+                select: {
+                    User: true,
+                    title: true,
+                    description: true
+                }
+            });
+            console.log(todos);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    });
+}
+getTodosAndUserDetails(2);

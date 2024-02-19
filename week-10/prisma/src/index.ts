@@ -84,7 +84,6 @@ async function remove(username:string) {
                         username
                   }
             })
-            
             if(user == null){
                   return console.log("No user exists");
             }
@@ -98,3 +97,61 @@ async function remove(username:string) {
 }
 
 // remove("knock");
+
+
+async function createTodo(userId: number, title: string, description: string) {
+      try {
+
+            const todo = await prisma.todo.create({
+                  data:{
+                        title,
+                        description,
+                        userId
+                  }
+            })
+
+            console.log(todo);
+      } catch (error) {
+            console.log(error);
+      }
+}
+
+// createTodo(2, "go to church", "go to church and do pray");
+
+async function getTodos(userId: number, ) {
+      try {
+
+            const todos = await prisma.todo.findMany({
+                  where: {
+                  userId: userId,
+                  },
+              });
+
+            console.log(todos);
+      } catch (error) {
+            console.log(error);      
+      }
+}
+
+// getTodos(2);
+
+async function getTodosAndUserDetails(userId: number, ) {
+      try {
+            const todos = await prisma.todo.findMany({
+                  where: {
+                      userId: userId,
+                  },
+                  select: {
+                      User: true,
+                      title: true,
+                      description: true
+                  }
+              });
+              console.log(todos);
+            
+      } catch (error) {
+            console.log(error);
+      }
+}
+
+getTodosAndUserDetails(2)

@@ -15,11 +15,13 @@ model User {
   username String @unique
   password String
   profile  String @default("https://wallpapers.com/images/hd/cool-profile-picture-ld8f4n1qemczkrig.jpg")
+  todos    Todo[]
 }
 
 model Todo {
   id          Int    @id @default(autoincrement())
   title       String
   description String
-  user_id     Int
+  User        User?  @relation(fields: [userId], references: [id])
+  userId      Int?
 }

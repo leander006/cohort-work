@@ -104,13 +104,43 @@ const useMousePointer = () => {
   return position;
 };
 
+// function App() {
+//   const mousePointer = useMousePointer();
+
+//   return (
+//     <>
+//       Your mouse position is {mousePointer.x} {mousePointer.y}
+//     </>
+//   )
+// }
+
+// export default App
+
+const  useDebouncing =(value,timeOut) =>{
+
+  const [debouncing, setDebouncing] = useState()
+  useEffect(() => {
+    let time = setTimeout(() => {
+      setDebouncing(value)
+    }, timeOut);
+
+    return () => clearTimeout(time);
+  }, [value,timeOut])
+  
+  return debouncing
+}
+
 function App() {
-  const mousePointer = useMousePointer();
+  const [value, setValue] = useState("")
+  const debouncing = useDebouncing(value,500);
 
   return (
     <>
-      Your mouse position is {mousePointer.x} {mousePointer.y}
-    </>
+      Value is {debouncing}
+      <br></br>
+      <input type="text" value={value} onChange={(e) =>setValue(e.target.value) }/>
+
+      </>
   )
 }
 

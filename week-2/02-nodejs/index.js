@@ -45,6 +45,6 @@ app.use(function (err, req, res, next) {
     msg: "Something went wrong",
   });
 });
-app.listen(3001, () => {
+app.listen(80, () => {
   console.log("File server running on 3001");
 });

@@ -8,9 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
+const express_1 = __importDefault(require("express"));
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
+require("dotenv").config();
 function insertUser(username, password) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -114,7 +121,7 @@ function createTodo(userId, title, description) {
                     userId
                 }
             });
-            console.log(todo);
+            return todo;
         }
         catch (error) {
             console.log(error);
@@ -130,7 +137,7 @@ function getTodos(userId) {
                     userId: userId,
                 },
             });
-            console.log(todos);
+            return todos;
         }
         catch (error) {
             console.log(error);
@@ -158,4 +165,32 @@ function getTodosAndUserDetails(userId) {
         }
     });
 }
-getTodosAndUserDetails(2);
+// getTodosAndUserDetails(2)
+app.get("/", (req, res) => {
+    res.json({
+        message: "Dockerize cohort prisma code in express"
+    });
+});
+app.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield getTodos(Number(req.params.id));
+        res.status(200).json({ data: data });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(404).json({ message: error });
+    }
+}));
+app.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield createTodo(req.body.userId, req.body.title, req.body.description);
+        res.status(200).json(data);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(404).json({ message: error });
+    }
+}));
+app.listen(process.env.PORT, () => {
+    console.log(`Running on port ${process.env.PORT}`);
+});

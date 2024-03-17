@@ -1,7 +1,11 @@
 
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
+import express from "express" 
+const app = express()
+app.use(express.json())
 
+require("dotenv").config();
 async function insertUser(username: string, password: string) {
       try {
             const res = await prisma.user.create({
@@ -110,7 +114,7 @@ async function createTodo(userId: number, title: string, description: string) {
                   }
             })
 
-            console.log(todo);
+            return todo;
       } catch (error) {
             console.log(error);
       }
@@ -126,8 +130,7 @@ async function getTodos(userId: number, ) {
                   userId: userId,
                   },
               });
-
-            console.log(todos);
+            return todos
       } catch (error) {
             console.log(error);      
       }
@@ -154,4 +157,34 @@ async function getTodosAndUserDetails(userId: number, ) {
       }
 }
 
-getTodosAndUserDetails(2)
+// getTodosAndUserDetails(2)
+
+app.get("/",(req,res) =>{
+      res.json({
+            message:"Dockerize cohort prisma code in express"
+      })
+})
+
+app.get("/:id",async(req,res) =>{
+      try {
+            const data = await getTodos(Number(req.params.id))
+            res.status(200).json({data:data})
+      } catch (error) {
+            console.log(error);
+            res.status(404).json({message:error})
+      }
+})
+
+app.post("/",async(req,res) =>{
+      try {
+           const data = await createTodo(req.body.userId,req.body.title,req.body.description) 
+           res.status(200).json(data)
+      } catch (error) {
+            console.log(error);
+            res.status(404).json({message:error})
+      }
+})
+
+app.listen(process.env.PORT,() =>{
+      console.log(`Running on port ${process.env.PORT}`);
+})

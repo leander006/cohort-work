@@ -18,7 +18,7 @@ async function insertUser(username: string, password: string) {
                         username:true
                   }
               })
-              console.log(res);
+              return res;
       } catch (error) {
             console.log(error);
             
@@ -122,14 +122,19 @@ async function createTodo(userId: number, title: string, description: string) {
 
 // createTodo(2, "go to church", "go to church and do pray");
 
-async function getTodos(userId: number, ) {
+async function getTodos(userId:number) {
       try {
 
             const todos = await prisma.todo.findMany({
-                  where: {
-                  userId: userId,
+                  where:{
+                        userId
                   },
-              });
+                  select:{
+                        title:true,
+                        description:true,
+                        userId:true
+                  }
+            });
             return todos
       } catch (error) {
             console.log(error);      
@@ -175,6 +180,15 @@ app.get("/:id",async(req,res) =>{
       }
 })
 
+app.post("/user",async(req,res) =>{
+      try {
+           const data = await insertUser(req.body.username,req.body.password) 
+           res.status(200).json(data)
+      } catch (error) {
+            console.log(error);
+            res.status(404).json({message:error})
+      }
+})
 app.post("/",async(req,res) =>{
       try {
            const data = await createTodo(req.body.userId,req.body.title,req.body.description) 

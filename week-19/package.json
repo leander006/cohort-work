@@ -1,0 +1,23 @@
+{
+  "name": "week-19",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm tsc -b",
+    "dev": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/ws": "^8.5.10",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "ws": "^8.16.0"
+  }
+}

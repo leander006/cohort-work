@@ -10,7 +10,7 @@ wss.on('connection', function connection(ws) {
 
   ws.on('message', function message(data: any) {
     const message = JSON.parse(data);
-    console.log("Message from browser ",message);
+    console.log("Message from browser",message);
     
     if (message.type === 'sender') {
       senderSocket = ws;

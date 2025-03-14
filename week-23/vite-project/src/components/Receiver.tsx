@@ -19,6 +19,7 @@ export const Receiver = () => {
 
         const pc = new RTCPeerConnection();
         pc.ontrack = (event) => {
+            console.log(event);
             video.srcObject = new MediaStream([event.track]);
             video.play();
         }

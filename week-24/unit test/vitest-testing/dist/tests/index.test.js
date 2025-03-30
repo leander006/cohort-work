@@ -15,9 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const vitest_1 = require("vitest");
 const supertest_1 = __importDefault(require("supertest"));
 const index_1 = require("../index");
-vitest_1.vi.mock('../db', () => ({
-    prismaClient: { sum: { create: vitest_1.vi.fn() } }
-}));
+vitest_1.vi.mock('../db');
 (0, vitest_1.describe)("POST /sum", () => {
     (0, vitest_1.it)("should return the sum of two numbers", () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(index_1.app).post("/sum").send({

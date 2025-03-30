@@ -1,7 +1,7 @@
 
 import express from "express";
 import { z } from "zod";
-import { prismaClient } from './__mock__/db'
+import { prismaClient } from './db'
 
 export const app = express();
 app.use(express.json());
